@@ -1,0 +1,37 @@
+{
+  "name": "acid-web",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@popmotion/easing": "^1.0.2",
+    "@popmotion/popcorn": "^0.3.1",
+    "js-quadtree": "^1.2.0",
+    "lodash": "^4.17.11",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-game-engine": "0.0.9",
+    "react-scripts": "2.1.8",
+    "three": "^0.92.0"
+  },
+  "scripts": {
+    "start": "run-script-os",
+    "start:win32": "set 'BROWSER=chrome' && react-scripts start",
+    "start:darwin:linux": "BROWSER='google chrome' react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "deploy": "firebase deploy"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "run-script-os": "^1.0.5"
+  }
+}
