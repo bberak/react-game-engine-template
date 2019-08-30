@@ -83,9 +83,6 @@ export const size = model => {
 export const cloneTexture = texture => {
 	const clone = texture.clone();
 
- 	//-- Forces passing to `gl.texImage2D(...)` verbatim
-  	clone.isDataTexture = true;
-
   	return clone;
 };
 

@@ -52,8 +52,6 @@ class ThreeView extends PureComponent {
     const height = container.clientHeight;
     const dpr = window.devicePixelRatio;
 
-    console.log("Resize Context: ", width, height, dpr);
-
     this.props.camera.aspect = width / height;
     this.props.camera.updateProjectionMatrix();
     
@@ -80,15 +78,27 @@ const css = {
   }
 }
 
+const renderHUD = (state, window) => {
+  if (!state.hud) return null;
+
+  const hud = state.hud;
+
+  if (typeof hud.renderer === "object")
+    return <hud.renderer.type key={"hud"} {...hud} window={window} />;
+  else if (typeof hud.renderer === "function")
+    return <hud.renderer key={"hud"} {...hud} window={window} />;
+};
+
 const ThreeJSRenderer = (...passes) => (state, window) => {
-  return (
+  return [
     <ThreeView
       passes={_.flatten(passes)}
       key={"threeView"}
       scene={state.scene}
       camera={state.camera}
-    />
-  );
+    />,
+    renderHUD(state, window)
+  ];
 };
 
 export default ThreeJSRenderer;

@@ -1,4 +1,3 @@
-import * as THREE from "three";
 import { promisifyLoader } from "../utils/three";
 import FBXLoader from "../utils/three/fbx-loader";
 import AnimatedModel from "./animated-model";

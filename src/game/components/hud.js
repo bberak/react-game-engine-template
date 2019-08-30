@@ -9,23 +9,23 @@ class HUDRenderer extends React.Component {
   }
 
   render() {
-    const {
-      stickRadius = 0,
-      stickPosition = { x: 0, y: 0 },
-      aRadius = 0,
-      aPosition = { x: 0, y: 0 },
-      bRadius = 0,
-      bPosition = { x: 0, y: 0 },
-      a = false,
-      b = false,
-      x = 0,
-      y = 0
-    } = this.props.stickController || {};
+    // const {
+    //   stickRadius = 0,
+    //   stickPosition = { x: 0, y: 0 },
+    //   aRadius = 0,
+    //   aPosition = { x: 0, y: 0 },
+    //   bRadius = 0,
+    //   bPosition = { x: 0, y: 0 },
+    //   a = false,
+    //   b = false,
+    //   x = 0,
+    //   y = 0
+    // } = this.props.stickController || {};
 
-    const usingStick = x || y;
+    // const usingStick = x || y;
 
     return [
-      <div key={"stick"}><h1>THIS IS A CRAPPY HUD</h1></div>
+      <div key={"stick"}><h1>THIS IS A HUD</h1></div>
     ];
   }
 }

@@ -59,7 +59,7 @@ export default ({ parent, world, items = [], x = 0, y = 0, z = 0, radius = 4, he
 
 					if (swipeController.oneFingerX)
 						self.bodies[0].angularVelocity.set(0, swipeController.oneFingerX * 0.1, 0)
-					else if (input.find(x => x.type == "start"))
+					else if (input.find(x => x.type === "start"))
 						self.bodies[0].angularVelocity.set(0, 0, 0)
 				}
 			}
