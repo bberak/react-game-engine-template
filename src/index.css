@@ -21,3 +21,9 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+.game {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+}
