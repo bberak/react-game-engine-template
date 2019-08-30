@@ -1,28 +1,29 @@
-import * as three from "./three";
 import _ from "lodash";
-import * as popcorn from '@popmotion/popcorn';
-import Controller from "./controller";
+import { interpolate } from '@popmotion/popcorn';
+import * as ThreeUtils from "./three";
 
 const remove = (entities, key) => {
 	const entity = entities[key];
-	const scene = entities.scene;
+
+	if (!entity) 
+		return;
 
 	if (entity.model)
-		three.remove(scene, entity.model);
+		ThreeUtils.remove(entity.model.parent, entity.model);
 
 	if (entity.light)
-		three.remove(scene, entity.light);
-
-	if (entity.collisions && entity.collisions.hitBoxHelper)
-		three.remove(scene, entity.collisions.hitBoxHelper);
+		ThreeUtils.remove(entity.light.parent, entity.light);
 
 	if (entity.particles) {
 		Object.keys(entity.particles).forEach(k => {
 			const emitter = entity.particles[k].emitter
 			if (emitter)
-				three.remove(scene, emitter);
+				ThreeUtils.remove(emitter.parent, emitter);
 		})
 	}
+
+	if (entity.bodies)
+		entity.bodies.forEach(b => b.remove())
 
 	delete entities[key];
 
@@ -108,6 +109,10 @@ const constrain = (n, low, high) => {
   return Math.max(Math.min(n, high), low);
 }
 
+const between = (n, low, high) => {
+  return n > low && n < high
+}
+
 const pipe = (...funcs) => _.flow(_.flatten(funcs || []))
 
 const id = (seed = 0) => (prefix = "") => `${prefix}${++seed}`
@@ -124,19 +129,7 @@ const log = label => data => {
 	return data;
 }
 
-const find  = _.find;
-
-const filter = _.filter;
-
-const clamp = constrain;
-
-const interpolate = popcorn.interpolate;
-
 const randomInt = (min = 0, max = 1) => Math.floor(Math.random() * (max - min + 1) + min);
-
-const once = _.once;
-
-const memoize = _.memoize;
 
 const throttle = (func, interval, defaultValue) => {
 	let last = 0;
@@ -151,7 +144,27 @@ const throttle = (func, interval, defaultValue) => {
 	}
 }
 
-const controller = Controller;
+const screen = window.screen;
+
+const createSound = (asset, throttleInterval = 0) => {
+	//const task = Audio.Sound.createAsync(asset);
+
+	const play = () => {
+		// Promise.resolve(task).then(({ sound, status }) => {
+		// 	if (!status.isPlaying)
+		// 		sound.playFromPositionAsync(0)
+		// });
+	};
+
+	return throttleInterval ? throttle(play, throttleInterval) : play;
+}
+
+const find = _.find;
+const filter = _.filter;
+const clamp = constrain;
+const once = _.once;
+const memoize = _.memoize;
+const sound = createSound;
 
 export {
 	remove,
@@ -168,6 +181,7 @@ export {
 	remap,
 	constrain,
 	clamp,
+	between,
 	pipe,
 	id,
 	cond,
@@ -177,5 +191,7 @@ export {
 	once,
 	memoize,
 	throttle,
-	controller 
+	screen,
+	createSound,
+	sound
 }

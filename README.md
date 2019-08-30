@@ -13,14 +13,41 @@ This project uses [Create React App](https://github.com/facebook/create-react-ap
 ```
 git clone https://github.com/bberak/react-game-engine-template.git
 
-cd react-game-engine-template
+mv react-game-engine-template my-game && cd my-game
 
 rm -rf .git
 
+git init
+
+git add .
+
+git commit -m "First commit"
+
+git remote add origin https://github.com/me/my-game.git
+
+git push -u origin master
+```
+
+Then, install the dependencies and start the app:
+
+```
 npm install
 
 npm run start
 ```
+
+This template contains the following:
+
+- Stick (GamePad) controllers
+- A simple HUD
+- Particle systems
+- Sound support
+- Physics implementation powered by [Oimo](https://github.com/lo-th/Oimo.js/)
+- [ThreeJS](https://github.com/mrdoob/three.js) rendering
+- Post-processing effects
+- Sprite support with animations
+
+> All of the above systems and components are hackable and extensible - which *should* allow for quick[er] prototyping.
 
 ## Available Scripts
 
@@ -88,9 +115,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-
-## Deploying
-
-### `npm run deploy`
-
-> The project will get deployed to: https://acid-74e98.firebaseapp.com

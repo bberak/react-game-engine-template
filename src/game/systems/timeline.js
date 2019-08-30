@@ -22,7 +22,11 @@ const update = (entity, entities, key, timeline, args) => {
   }
 
   if (timeline.while) {
-    if (_.isFunction(timeline.while) ? timeline.while(entity, entities, timeline, args) : true) {
+    if (
+      _.isFunction(timeline.while)
+        ? timeline.while(entity, entities, timeline, args)
+        : true
+    ) {
       timeline.update(entity, entities, timeline, args);
     } else {
       if (timeline.complete)
@@ -44,8 +48,10 @@ const Timeline = (entities, args) => {
       const key = keys[j];
       const timeline = entity.timelines[key];
 
-      start(timeline, args);
-      update(entity, entities, key, timeline, args);
+      if (timeline) {
+        start(timeline, args);
+        update(entity, entities, key, timeline, args);
+      }
     }
   }
 

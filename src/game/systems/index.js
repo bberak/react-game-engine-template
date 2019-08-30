@@ -1,30 +1,23 @@
-import Controls from "./controls";
-import Removal from "./removal"
-import Timeline from "./timeline"
-import Spring from "./spring"
-import Gravity from "./gravity"
-import Motion from "./motion"
-import Collisions from "./collisions"
-import Rotation from "./rotation"
-import Obstacles from "./obstacles"
-import Damage from "./damage"
-import Streak from "./streak"
-import CameraShake from "./cameraShake"
-import Particles from "./particles"
-import { throttle, controller } from "../utils";
+import Camera from "./camera";
+import Particles from "./particles";
+import Removal from "./removal";
+import Rotation from "./rotation";
+import Timeline from "./timeline";
+import HUD from "./hud";
+import StickController from "./stick-controller";
+import SwipeController from "./swipe-controller";
+import Physics from "./physics";
+import Spawn from "./spawn";
 
 export default [
-  throttle(Removal, 300, entities => entities),
-  controller(Controls),
-  Spring,
-  controller(Timeline),
-  Gravity,
-  Motion,
-  Rotation,
-  throttle(Obstacles, 300, entities => entities),
-  Damage,
-  Collisions,
-  Streak,
-  controller(Particles),
-  controller(CameraShake)
+	StickController(),
+	SwipeController()(),
+	Camera({ pitchSpeed: -0.01, yawSpeed: 0 }),
+	Particles,
+	Removal,
+	Rotation,
+	Timeline,
+	Spawn,
+	Physics,
+	HUD
 ];

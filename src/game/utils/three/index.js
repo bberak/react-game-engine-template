@@ -1,4 +1,5 @@
-import * as THREE from 'three';
+import * as THREE from "three";
+import SkeletonUtils from "./skeleton-utils";
 
 export const clean = obj => {
 	while (obj.children.length > 0) {
@@ -11,9 +12,14 @@ export const clean = obj => {
 	if (obj.texture && obj.texture.dispose) obj.texture.dispose();
 };
 
-export const remove = (scene, obj) => {
-	clean(obj);
-	scene.remove(obj);
+export const clear = clean;
+
+export const remove = (parent, child) => {
+	if (child)
+		clean(child);
+
+	if (parent)
+		parent.remove(child);
 };
 
 export const direction = obj => {
@@ -45,13 +51,27 @@ export const rotateAroundPoint = (
 	obj.position.add(diff);
 };
 
+export const model = obj => {
+	return obj.model ? obj.model : obj;
+};
+
+export const add = (parent, child) => {
+	if (!parent || !child)
+		return;
+
+	const p = parent.model ? parent.model : parent;
+	const c = child.model ? child.model : child;
+
+	model(p).add(model(c))
+};
+
 export const reparent = (subject, newParent) => {
 	subject.matrix.copy(subject.matrixWorld);
 	subject.applyMatrix(new THREE.Matrix4().getInverse(newParent.matrixWorld));
 	newParent.add(subject);
 };
 
-export const getSize = model => {
+export const size = model => {
 	const currentSize = new THREE.Vector3();
 	const currentBox = new THREE.Box3().setFromObject(model);
 
@@ -60,6 +80,33 @@ export const getSize = model => {
 	return currentSize;
 };
 
+export const cloneTexture = texture => {
+	const clone = texture.clone();
+
+ 	//-- Forces passing to `gl.texImage2D(...)` verbatim
+  	clone.isDataTexture = true;
+
+  	return clone;
+};
+
+export const cloneMesh = SkeletonUtils.clone;
+
+export const firstMesh = obj => {
+	if (!obj)
+		return;
+
+	if (obj.isMesh)
+		return obj;
+
+	if (obj.children && obj.children.length){
+		for (let i = 0; i < obj.children.length; i++) {
+			const test = firstMesh(obj.children[i]);
+
+			if (test && test.isMesh)
+				return test;
+		}
+	}
+};
 
 export const promisifyLoader = (loader, onProgress) => {
 
@@ -73,40 +120,4 @@ export const promisifyLoader = (loader, onProgress) => {
     originalLoader: loader,
     load: promiseLoader,
   };
-};
-
-export const firstMesh = (obj) => {
-	if (obj.isMesh)
-		return obj;
-
-	if (obj.children && obj.children.length){
-		for (let i = 0; i < obj.children.length; i++) {
-			const test = firstMesh(obj.children[i]);
-
-			if (test.isMesh)
-				return test;
-		}
-	}
-};
-
-export const allMeshes = (obj) => {
-
-	if (obj.isMesh)
-		return [obj];
-
-	const meshes = [];
-
-	if (obj.children && obj.children.length) {
-		for (let i = 0; i < obj.children.length; i++) {
-			const child = obj.children[i];
-
-			if (child.isMesh)
-				meshes.push(child)
-			else {
-				allMeshes(child).forEach(m => meshes.push(m))
-			}
-		}
-	}
-
-	return meshes;
 };

@@ -1,5 +1,5 @@
+import * as THREE from "three";
 import { remove } from "../utils";
-import * as THREE from 'three';
 import _ from "lodash";
 
 //-- https://gist.github.com/zentrope/5022d89cfa995ac71978
@@ -7,12 +7,12 @@ import _ from "lodash";
 const frustum = new THREE.Frustum();
 const cameraViewProjectionMatrix = new THREE.Matrix4();
 
-const Clean = entities => {
+const Removal = entities => {
   const camera = entities.camera;
   const removeableKeys = Object.keys(entities).filter(
     x => entities[x].removable
   );
-  
+
   camera.updateMatrixWorld();
   camera.matrixWorldInverse.getInverse(camera.matrixWorld);
   cameraViewProjectionMatrix.multiplyMatrices(
@@ -25,10 +25,10 @@ const Clean = entities => {
     const test = entities[key].removable;
 
     if (_.isFunction(test) ? test(frustum, entities[key], entities) : true)
-      remove(entities, key)
+      remove(entities, key);
   });
 
   return entities;
 };
 
-export default Clean;
+export default Removal;

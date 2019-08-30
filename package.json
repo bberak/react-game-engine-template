@@ -1,9 +1,8 @@
 {
   "dependencies": {
-    "@popmotion/easing": "^1.0.2",
-    "@popmotion/popcorn": "^0.3.1",
-    "js-quadtree": "^1.2.0",
+    "@popmotion/popcorn": "^0.4.0",
     "lodash": "^4.17.11",
+    "oimo": "^1.0.9",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-game-engine": "0.0.9",

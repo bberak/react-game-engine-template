@@ -1,21 +1,34 @@
-import * as THREE from 'three';
-import { find } from "../utils";
+import { rotateAroundPoint } from "../utils/three";
 
-const adjustPosition = (camera, target) => {
-  const distance = Math.abs(camera.position.z - target.z);
+const Camera = ({
+  yawSpeed = 0.01,
+  pitchSpeed = 0.01,
+  zoomSpeed = 0.02
+} = {}) => {
+  return (entities, { swipeController }) => {
+    const camera = entities.camera;
 
-  if (distance > (camera.distanceFromTarget || 1))
-    camera.position.z -= distance * 0.125;
-}
+    if (camera && swipeController) {
+      //-- Yaw and pitch rotation
+      if (swipeController.twoFingersX || swipeController.twoFingersY) {
+        rotateAroundPoint(camera, camera.target, {
+          thetaY: swipeController.twoFingersX * yawSpeed,
+          thetaX: swipeController.twoFingersY * pitchSpeed
+        });
+        camera.lookAt(camera.target);
+      }
+      
+      //-- Zooming (pinching)
+      if (swipeController.pinch) {
+        const zoomFactor = swipeController.pinch * zoomSpeed;
 
-const Camera = entities => {
-  const camera = entities.camera
-  const player = find(entities, x => x.model && x.player);
-  const target = player.model.position.clone();
+        camera.zoom += zoomFactor;
+        camera.updateProjectionMatrix();
+      }
+    }
 
-  adjustPosition(camera, target);
-
-  return entities
-}
+    return entities;
+  };
+};
 
 export default Camera;
