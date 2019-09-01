@@ -7,31 +7,28 @@ const vibrate = gp => {
   };
 };
 
-const createGamepadButtonReader = (buttonIndices = [], threshold = 0.05) => {
+const createGamepadButtonReader = (buttonIndices = []) => {
+  return gp => {
+    if (gp) {
+      return buttonIndices.map(idx => gp.buttons[idx].pressed);
+    }
+  }
+};
+
+const createGamepadButtonValueReader = (buttonIndices = [], threshold = 0.05) => {
   return gp => {
     if (gp) {
       return buttonIndices.map(idx => {
         const button = gp.buttons[idx];
-        const val = button && button.pressed && button.value > threshold;
 
-        return val;
+        return button.pressed && button.value > threshold ? button.value : false;
       })
 
     }
   }
 };
 
-const button = (idx) => {
-  const reader = createGamepadButtonReader([idx]);
-
-  return gp => {
-    const [val] = reader(gp) || [false];
-
-    return val;
-  }
-};
-
-const createGamepadAxesReader = (axisIndices = [], threshold = 0.05) => {
+const createGamepadAxesReader = (axisIndices = [], mapper = x => x, threshold = 0.05) => {
   return gp => {
     if (gp) {
       return axisIndices.map(idx => {
@@ -50,6 +47,16 @@ const stick = (xIdx, yIdx) => {
     const [x, y] = reader(gp) || [0, 0];
 
     return { x, y, heading: (x + y) ? Math.atan2(y, x) : null };
+  }
+};
+
+const button = (idx) => {
+  const reader = createGamepadButtonReader([idx]);
+
+  return gp => {
+    const [val] = reader(gp) || [false];
+
+    return val;
   }
 };
 
