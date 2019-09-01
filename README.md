@@ -38,7 +38,7 @@ npm run start
 
 This template contains the following:
 
-- Stick (GamePad) controllers
+- Stick (Gamepad) controllers
 - A simple HUD
 - Particle systems
 - Sound support

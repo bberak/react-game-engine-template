@@ -2,34 +2,32 @@ import React from "react";
 
 class HUDRenderer extends React.Component {
   shouldComponentUpdate(nextProps) {
-    const s1 = this.props.stickController || {};
-    const s2 = nextProps.stickController || {};
+    const k1 = this.props.keyController || {};
+    const k2 = nextProps.keyController || {};
 
-    return Boolean(s1.x || s1.y) !== Boolean(s2.x || s2.y) || s1.a !== s2.a || s1.b !== s2.b;
+    return (
+      k1.w !== k2.w ||
+      k1.a !== k2.a ||
+      k1.s !== k2.s ||
+      k1.d !== k2.d
+    );
   }
 
   render() {
-    // const {
-    //   stickRadius = 0,
-    //   stickPosition = { x: 0, y: 0 },
-    //   aRadius = 0,
-    //   aPosition = { x: 0, y: 0 },
-    //   bRadius = 0,
-    //   bPosition = { x: 0, y: 0 },
-    //   a = false,
-    //   b = false,
-    //   x = 0,
-    //   y = 0
-    // } = this.props.stickController || {};
+    const { w, a, s, d } = this.props.keyController || {};
 
-    // const usingStick = x || y;
-
-    return [
-      <div key={"stick"}><h1>THIS IS A HUD</h1></div>
-    ];
+    return (
+      <div>
+        <h1>
+          <span style={{ color: w ? "red" : "black" }}>W</span>
+          <span style={{ color: a ? "red" : "black" }}>A</span>
+          <span style={{ color: s ? "red" : "black" }}>S</span>
+          <span style={{ color: d ? "red" : "black" }}>D</span>
+        </h1>
+      </div>
+    );
   }
 }
-
 
 export default () => {
   return { renderer: <HUDRenderer /> };

@@ -4,6 +4,7 @@ const HUD = (entities, args) => {
 
   if (hud) {
     hud.stickController = args.stickController;
+    hud.keyController = args.keyController;
   }
 
   return entities;

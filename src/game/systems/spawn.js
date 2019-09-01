@@ -10,10 +10,10 @@ const Spawn = (entities, { stickController }) => {
   const world = entities.world;
   const scene = entities.scene;
 
-  if (stickController.a && !stickController.previous.a)
+  if (stickController.leftTrigger && !stickController.previous.leftTrigger)
   	entities[boxId()] = Box({ parent: scene, world, y: 5 });
 
-  if (stickController.b && !stickController.previous.b)
+  if (stickController.rightTrigger && !stickController.previous.rightTrigger)
   	entities[cylinderId()] = Cylinder({ parent: scene, world, y: 5 });
 
   return entities;

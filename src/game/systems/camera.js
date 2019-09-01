@@ -5,22 +5,24 @@ const Camera = ({
   pitchSpeed = 0.01,
   zoomSpeed = 0.02
 } = {}) => {
-  return (entities, { swipeController }) => {
+  return (entities, { keyController }) => {
     const camera = entities.camera;
 
-    if (camera && swipeController) {
+    if (camera && keyController) {
+      const { w, a, s, d, space, control } = keyController;
+
       //-- Yaw and pitch rotation
-      if (swipeController.twoFingersX || swipeController.twoFingersY) {
+      if (w || a || s || d) {
         rotateAroundPoint(camera, camera.target, {
-          thetaY: swipeController.twoFingersX * yawSpeed,
-          thetaX: swipeController.twoFingersY * pitchSpeed
+          thetaY: (a ? 1 : d ? -1 : 0) * yawSpeed,
+          thetaX: (w ? 1 : s ? -1 : 0) * pitchSpeed
         });
         camera.lookAt(camera.target);
       }
       
       //-- Zooming (pinching)
-      if (swipeController.pinch) {
-        const zoomFactor = swipeController.pinch * zoomSpeed;
+      if (space || control) {
+        const zoomFactor = (space ? 1 : control ? -1 : 0) * zoomSpeed;
 
         camera.zoom += zoomFactor;
         camera.updateProjectionMatrix();

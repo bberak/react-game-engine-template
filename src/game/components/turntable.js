@@ -53,14 +53,9 @@ export default ({ parent, world, items = [], x = 0, y = 0, z = 0, radius = 4, he
 		timelines: {
 			swipe: {
 				while: true,
-				update(self, entities, timeline, { swipeController, stickController, input }) {
-					if (stickController.heading !== null || stickController.a || stickController.b)
-						return;
-
-					if (swipeController.oneFingerX)
-						self.bodies[0].angularVelocity.set(0, swipeController.oneFingerX * 0.1, 0)
-					else if (input.find(x => x.type === "start"))
-						self.bodies[0].angularVelocity.set(0, 0, 0)
+				update(self, entities, timeline, { stickController }) {
+					if (stickController.leftStick.heading)
+						self.bodies[0].angularVelocity.set(0, stickController.leftStick.x, 0)
 				}
 			}
 		}
