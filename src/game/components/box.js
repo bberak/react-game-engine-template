@@ -28,7 +28,7 @@ export default ({
 	box.scale.z = scale;
 
 	add(parent, box);
-
+	
 	const crash = sound(CrashFile, 16 * 40);
 
 	return {

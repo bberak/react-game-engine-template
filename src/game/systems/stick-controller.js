@@ -15,18 +15,17 @@ const createGamepadButtonReader = (buttonIndices = []) => {
   }
 };
 
-const createGamepadButtonValueReader = (buttonIndices = [], threshold = 0.05) => {
-  return gp => {
-    if (gp) {
-      return buttonIndices.map(idx => {
-        const button = gp.buttons[idx];
+// const createGamepadButtonValueReader = (buttonIndices = [], threshold = 0.05) => {
+//   return gp => {
+//     if (gp) {
+//       return buttonIndices.map(idx => {
+//         const button = gp.buttons[idx];
 
-        return button.pressed && button.value > threshold ? button.value : false;
-      })
-
-    }
-  }
-};
+//         return button.pressed && button.value > threshold ? button.value : false;
+//       });
+//     }
+//   }
+// };
 
 const createGamepadAxesReader = (axisIndices = [], mapper = x => x, threshold = 0.05) => {
   return gp => {

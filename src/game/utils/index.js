@@ -147,17 +147,11 @@ const throttle = (func, interval, defaultValue) => {
 const screen = window.screen;
 
 const createSound = (asset, throttleInterval = 0) => {
-	//const task = Audio.Sound.createAsync(asset);
-
-	const play = () => {
-		// Promise.resolve(task).then(({ sound, status }) => {
-		// 	if (!status.isPlaying)
-		// 		sound.playFromPositionAsync(0)
-		// });
-	};
+	const audio = new Audio(asset);
+	const play = () => audio.play();
 
 	return throttleInterval ? throttle(play, throttleInterval) : play;
-}
+};
 
 const find = _.find;
 const filter = _.filter;
