@@ -25,25 +25,34 @@ class HUDRenderer extends React.Component {
   render() {
     const { w, a, s, d } = this.props.keyController || {};
     const { leftTrigger, rightTrigger, leftStick = { x: 0, y: 0 }, rightStick = { x: 0, y: 0 } } = this.props.stickController || {};
+    const onColor = "cornflowerblue";
+    const offColor = "white"
 
     return (
-      <div>
+      <div style={css.hud}>
         <h1>
-          <span style={{ color: "black" }}>{`(${leftStick.x.toFixed(2)}, ${leftStick.y.toFixed(2)})`}</span>
+          <span style={{ color: offColor }}>{`(${leftStick.x.toFixed(2)}, ${leftStick.y.toFixed(2)})`}</span>
           &nbsp;&nbsp;
-          <span style={{ color: leftTrigger ? "blue" : "black" }}>LT</span>
+          <span style={{ color: leftTrigger ? onColor : offColor }}>LT</span>
           &nbsp;&nbsp;
-          <span style={{ color: w ? "blue" : "black" }}>W</span>
-          <span style={{ color: a ? "blue" : "black" }}>A</span>
-          <span style={{ color: s ? "blue" : "black" }}>S</span>
-          <span style={{ color: d ? "blue" : "black" }}>D</span>
+          <span style={{ color: w ? onColor : offColor }}>W</span>
+          <span style={{ color: a ? onColor : offColor }}>A</span>
+          <span style={{ color: s ? onColor : offColor }}>S</span>
+          <span style={{ color: d ? onColor : offColor }}>D</span>
           &nbsp;&nbsp;
-          <span style={{ color: rightTrigger ? "blue" : "black" }}>RT</span>
+          <span style={{ color: rightTrigger ? onColor : offColor }}>RT</span>
           &nbsp;&nbsp;
-          <span style={{ color: "black" }}>{`(${rightStick.x.toFixed(2)}, ${rightStick.y.toFixed(2)})`}</span>
+          <span style={{ color: offColor }}>{`(${rightStick.x.toFixed(2)}, ${rightStick.y.toFixed(2)})`}</span>
         </h1>
       </div>
     );
+  }
+}
+
+const css = {
+  hud: {
+    zIndex: 100,
+    marginTop: -100
   }
 }
 
