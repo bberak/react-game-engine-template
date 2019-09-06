@@ -14,8 +14,8 @@ const Camera = ({
       //-- Yaw and pitch rotation
       if (w || a || s || d) {
         rotateAroundPoint(camera, camera.target, {
-          thetaY: (a ? 1 : d ? -1 : 0) * yawSpeed,
-          thetaX: (w ? 1 : s ? -1 : 0) * pitchSpeed
+          y: (a ? 1 : d ? -1 : 0) * yawSpeed,
+          x: (w ? 1 : s ? -1 : 0) * pitchSpeed
         });
         camera.lookAt(camera.target);
       }

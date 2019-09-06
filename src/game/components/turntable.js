@@ -13,7 +13,7 @@ export default ({ parent, world, items = [], x = 0, y = 0, z = 0, radius = 4, he
 
 	items.forEach((item, idx) => {
 		item.model.position.z = radius - 1;
-		rotateAroundPoint(item.model, cylinder.position, { thetaY: ((Math.PI * 2) / items.length) * idx })
+		rotateAroundPoint(item.model, cylinder.position, { y: ((Math.PI * 2) / items.length) * idx })
 		add(cylinder, item);
 
 		if (item.bodies) 
@@ -54,8 +54,10 @@ export default ({ parent, world, items = [], x = 0, y = 0, z = 0, radius = 4, he
 			swipe: {
 				while: true,
 				update(self, entities, timeline, { gamepadController }) {
-					if (gamepadController.leftStick.heading)
-						self.bodies[0].angularVelocity.set(0, gamepadController.leftStick.x, 0)
+					if (gamepadController.rightTrigger)
+						self.bodies[0].angularVelocity.set(0, gamepadController.rightTrigger, 0)
+					else if (gamepadController.leftTrigger)
+						self.bodies[0].angularVelocity.set(0, -gamepadController.leftTrigger, 0)
 				}
 			}
 		}

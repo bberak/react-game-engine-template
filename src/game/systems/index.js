@@ -14,7 +14,7 @@ export default [
 	GamepadController(),
 	KeyController(),
 	MouseController(),
-	Camera({ pitchSpeed: -0.01, yawSpeed: 0.01 }),
+	Camera({ pitchSpeed: -0.02, yawSpeed: 0.02 }),
 	Particles,
 	Removal,
 	Rotation,

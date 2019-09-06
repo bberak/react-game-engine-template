@@ -78,8 +78,8 @@ export default async ({ parent, x = 0, y = 0, z = 0}) => {
 			{ heading: 180, action: "w" }
 		],
 		update(self, entities, { directions }, { gamepadController }) {
-			if (gamepadController.rightStick.heading !== null ) {
-				const degrees = THREE.Math.radToDeg(gamepadController.rightStick.heading)
+			if (gamepadController.leftStick.heading !== null ) {
+				const degrees = THREE.Math.radToDeg(gamepadController.leftStick.heading)
 				const direction = directions.find(x => between(degrees, x.heading - 25, x.heading + 25))
 
 				self.actions[direction.action]()

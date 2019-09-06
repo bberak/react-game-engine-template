@@ -15,17 +15,17 @@ const createGamepadButtonReader = (buttonIndices = []) => {
   }
 };
 
-// const createGamepadButtonValueReader = (buttonIndices = [], threshold = 0.05) => {
-//   return gp => {
-//     if (gp) {
-//       return buttonIndices.map(idx => {
-//         const button = gp.buttons[idx];
+const createGamepadButtonValueReader = (buttonIndices = [], threshold = 0.05) => {
+  return gp => {
+    if (gp) {
+      return buttonIndices.map(idx => {
+        const button = gp.buttons[idx];
 
-//         return button.pressed && button.value > threshold ? button.value : false;
-//       });
-//     }
-//   }
-// };
+        return button.pressed && button.value > threshold ? button.value : 0;
+      });
+    }
+  }
+};
 
 const createGamepadAxesReader = (axisIndices = [], mapper = x => x, threshold = 0.05) => {
   return gp => {
@@ -59,10 +59,23 @@ const button = (idx) => {
   }
 };
 
+const buttonValue = (idx) => {
+  const reader = createGamepadButtonValueReader([idx]);
+
+  return gp => {
+    const [val] = reader(gp) || [0];
+
+    return val;
+  }
+};
+
 const leftStick = stick(0, 1);
 const rightStick = stick(2, 3);
-const leftTrigger = button(6);
-const rightTrigger = button(7);
+const button0 = button(0);
+const button1 = button(1);
+const leftTrigger = buttonValue(6);
+const rightTrigger = buttonValue(7);
+
 
 let previous = { };
 
@@ -74,6 +87,8 @@ const GamepadController = (Wrapped = x => x) => (entities, args) => {
       const current = {
         leftStick: leftStick(gamepad),
         rightStick: rightStick(gamepad),
+        button0: button0(gamepad),
+        button1: button1(gamepad),
         leftTrigger: leftTrigger(gamepad),
         rightTrigger: rightTrigger(gamepad),
         vibrate: vibrate(gamepad)
