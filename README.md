@@ -11,11 +11,11 @@ This project uses [Create React App](https://github.com/facebook/create-react-ap
 ## How to start
 
 ```
-git clone https://github.com/bberak/react-game-engine-template.git
+git clone https://github.com/bberak/react-game-engine-template.git [new-game]
 
-mv react-game-engine-template my-game && cd my-game
+cd [new-game]
 
-rm -rf .git
+rm -rf .git # Windows: rmdir /S .git
 
 git init
 
@@ -23,7 +23,7 @@ git add .
 
 git commit -m "First commit"
 
-git remote add origin https://github.com/me/my-game.git
+git remote add origin https://github.com/[me]/[new-game].git
 
 git push -u origin master
 ```
