@@ -39,11 +39,11 @@ export default async ({ parent, x = 0, y = 0, z = 0}) => {
 			{ heading: 120, pose: "rightFlapDown" },
 			{ heading: 180, pose: "rudderLeft" }
 		],
-		update(self, entities, { directions }, { stickController }) {
+		update(self, entities, { directions }, { gamepadController }) {
 			let target = null;
 
-			if (stickController.rightStick.heading !== null ) {
-				const degrees = THREE.Math.radToDeg(stickController.rightStick.heading)
+			if (gamepadController.rightStick.heading !== null ) {
+				const degrees = THREE.Math.radToDeg(gamepadController.rightStick.heading)
 				const direction = directions.find(x => between(degrees, x.heading - 30, x.heading + 30))
 
 				if (direction)

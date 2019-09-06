@@ -5,8 +5,8 @@ class HUDRenderer extends React.Component {
     const k1 = this.props.keyController || {};
     const k2 = nextProps.keyController || {};
 
-    const s1 = this.props.stickController || {};
-    const s2 = nextProps.stickController || {};
+    const s1 = this.props.gamepadController || {};
+    const s2 = nextProps.gamepadController || {};
 
     return (
       k1.w !== k2.w ||
@@ -24,7 +24,7 @@ class HUDRenderer extends React.Component {
 
   render() {
     const { w, a, s, d } = this.props.keyController || {};
-    const { leftTrigger, rightTrigger, leftStick = { x: 0, y: 0 }, rightStick = { x: 0, y: 0 } } = this.props.stickController || {};
+    const { leftTrigger, rightTrigger, leftStick = { x: 0, y: 0 }, rightStick = { x: 0, y: 0 } } = this.props.gamepadController || {};
     const onColor = "cornflowerblue";
     const offColor = "white"
 

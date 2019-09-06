@@ -53,9 +53,9 @@ export default ({ parent, world, items = [], x = 0, y = 0, z = 0, radius = 4, he
 		timelines: {
 			swipe: {
 				while: true,
-				update(self, entities, timeline, { stickController }) {
-					if (stickController.leftStick.heading)
-						self.bodies[0].angularVelocity.set(0, stickController.leftStick.x, 0)
+				update(self, entities, timeline, { gamepadController }) {
+					if (gamepadController.leftStick.heading)
+						self.bodies[0].angularVelocity.set(0, gamepadController.leftStick.x, 0)
 				}
 			}
 		}

@@ -66,9 +66,9 @@ const rightTrigger = button(7);
 
 let previous = { };
 
-const StickController = (Wrapped = x => x) => (entities, args) => {
+const GamepadController = (Wrapped = x => x) => (entities, args) => {
 
-  if (!args.stickController) {
+  if (!args.gamepadController) {
       const gamepad = getGamepad();
 
       const current = {
@@ -79,7 +79,7 @@ const StickController = (Wrapped = x => x) => (entities, args) => {
         vibrate: vibrate(gamepad)
       };
 
-      args.stickController = Object.assign({}, current, { previous });
+      args.gamepadController = Object.assign({}, current, { previous });
 
       previous = current;
   }
@@ -87,4 +87,4 @@ const StickController = (Wrapped = x => x) => (entities, args) => {
   return Wrapped(entities, args);
 };
 
-export default StickController;
+export default GamepadController;

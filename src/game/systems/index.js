@@ -4,13 +4,13 @@ import Removal from "./removal";
 import Rotation from "./rotation";
 import Timeline from "./timeline";
 import HUD from "./hud";
-import StickController from "./stick-controller";
+import GamepadController from "./gamepad-controller";
 import KeyController from "./key-controller";
 import Physics from "./physics";
 import Spawn from "./spawn";
 
 export default [
-	StickController(),
+	GamepadController(),
 	KeyController(),
 	Camera({ pitchSpeed: -0.01, yawSpeed: 0.01 }),
 	Particles,
