@@ -5,6 +5,7 @@ const HUD = (entities, args) => {
   if (hud) {
     hud.gamepadController = args.gamepadController;
     hud.keyController = args.keyController;
+    hud.mouseController = args.mouseController;
   }
 
   return entities;
