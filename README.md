@@ -23,7 +23,7 @@ git add .
 
 git commit -m "First commit"
 
-git remote add origin https://github.com/[me]/[new-game].git
+git remote add origin https://github.com/[you]/[new-game].git
 
 git push -u origin master
 ```
