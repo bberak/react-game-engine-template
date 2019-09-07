@@ -21,7 +21,6 @@ class ThreeView extends PureComponent {
     this.renderer.setPixelRatio(dpr);
     this.renderer.setSize(width, height);
     this.renderer.setClearColor(0x020202, 1.0);
-
     this.composer = new EffectComposer(this.renderer);
 
     const passes = [
