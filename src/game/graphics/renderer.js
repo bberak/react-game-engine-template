@@ -17,7 +17,6 @@ class ThreeView extends PureComponent {
     const dpr = window.devicePixelRatio;
 
     this.props.camera.resize(width, height, dpr);
-
     this.renderer = new THREE.WebGLRenderer({ });
     this.renderer.setPixelRatio(dpr);
     this.renderer.setSize(width, height);
