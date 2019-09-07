@@ -16,8 +16,7 @@ class ThreeView extends PureComponent {
     const height = container.clientHeight;
     const dpr = window.devicePixelRatio;
 
-    this.props.camera.aspect = width / height;
-    this.props.camera.updateProjectionMatrix();
+    this.props.camera.resize(width, height, dpr);
 
     this.renderer = new THREE.WebGLRenderer({ });
     this.renderer.setPixelRatio(dpr);
@@ -52,9 +51,7 @@ class ThreeView extends PureComponent {
     const height = container.clientHeight;
     const dpr = window.devicePixelRatio;
 
-    this.props.camera.aspect = width / height;
-    this.props.camera.updateProjectionMatrix();
-    
+    this.props.camera.resize(width, height, dpr);
     this.renderer.setPixelRatio(dpr);
     this.renderer.setSize(width, height);
   };

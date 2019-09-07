@@ -1,11 +1,11 @@
 import * as THREE from "three";
-import { screen, remap } from "../utils";
+import { remap } from "../utils";
 import { noise } from "../utils/perlin";
 
 export default () => {
 	const camera = new THREE.PerspectiveCamera(
 		90,
-		screen.width / screen.height,
+		window.innerWidth / window.innerHeight,
 		1,
 		1000
 	);
@@ -36,6 +36,11 @@ export default () => {
 				}
 			};
 		}
+	};
+
+	camera.resize = (width, height, dpr) => {
+		camera.aspect = width / height;
+		camera.updateProjectionMatrix();
 	};
 
 	return camera;
