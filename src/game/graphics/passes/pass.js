@@ -1,3 +1,4 @@
+import { OrthographicCamera, PlaneBufferGeometry, Mesh } from "three";
 
 const Pass = function () {
 
@@ -26,5 +27,48 @@ Object.assign( Pass.prototype, {
 	}
 
 } );
+
+// Helper for passes that need to fill the viewport with a single quad.
+
+Pass.FullScreenQuad = ( function () {
+
+	var camera = new OrthographicCamera( - 1, 1, 1, - 1, 0, 1 );
+	var geometry = new PlaneBufferGeometry( 2, 2 );
+
+	var FullScreenQuad = function ( material ) {
+
+		this._mesh = new Mesh( geometry, material );
+
+	};
+
+	Object.defineProperty( FullScreenQuad.prototype, 'material', {
+
+		get: function () {
+
+			return this._mesh.material;
+
+		},
+
+		set: function ( value ) {
+
+			this._mesh.material = value;
+
+		}
+
+	} );
+
+	Object.assign( FullScreenQuad.prototype, {
+
+		render: function ( renderer ) {
+
+			renderer.render( this._mesh, camera );
+
+		}
+
+	} );
+
+	return FullScreenQuad;
+
+} )();
 
 export default Pass;
