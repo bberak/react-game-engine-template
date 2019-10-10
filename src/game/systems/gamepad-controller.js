@@ -76,7 +76,6 @@ const button1 = button(1);
 const leftTrigger = buttonValue(6);
 const rightTrigger = buttonValue(7);
 
-
 let previous = { };
 
 const GamepadController = (Wrapped = x => x) => (entities, args) => {
