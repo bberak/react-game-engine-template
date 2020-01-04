@@ -5,7 +5,7 @@
     "oimo": "^1.0.9",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "react-game-engine": "^0.2.1",
+    "react-game-engine": "^0.3.0",
     "react-scripts": "2.1.8",
     "three": "^0.105.2"
   },

@@ -73,10 +73,10 @@ const css = {
   }
 }
 
-const renderHUD = (state, window) => {
-  if (!state.hud) return null;
+const renderHUD = (entities, window) => {
+  if (!entities.hud) return null;
 
-  const hud = state.hud;
+  const hud = entities.hud;
 
   if (typeof hud.renderer === "object")
     return <hud.renderer.type key={"hud"} {...hud} window={window} />;
@@ -84,15 +84,16 @@ const renderHUD = (state, window) => {
     return <hud.renderer key={"hud"} {...hud} window={window} />;
 };
 
-const ThreeJSRenderer = (...passes) => (state, window) => {
+const ThreeJSRenderer = (...passes) => (entities, window) => {
+  if (!entities) return null;
   return [
     <ThreeView
       passes={_.flatten(passes)}
       key={"threeView"}
-      scene={state.scene}
-      camera={state.camera}
+      scene={entities.scene}
+      camera={entities.camera}
     />,
-    renderHUD(state, window)
+    renderHUD(entities, window)
   ];
 };
 
