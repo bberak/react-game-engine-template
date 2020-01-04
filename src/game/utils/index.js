@@ -145,20 +145,11 @@ const throttle = (func, interval, defaultValue) => {
 }
 
 const screen = window.screen;
-
-const createSound = (asset, throttleInterval = 0) => {
-	const audio = new Audio(asset);
-	const play = () => audio.play();
-
-	return throttleInterval ? throttle(play, throttleInterval) : play;
-};
-
 const find = _.find;
 const filter = _.filter;
 const clamp = constrain;
 const once = _.once;
 const memoize = _.memoize;
-const sound = createSound;
 
 export {
 	remove,
@@ -185,7 +176,5 @@ export {
 	once,
 	memoize,
 	throttle,
-	screen,
-	createSound,
-	sound
+	screen
 }

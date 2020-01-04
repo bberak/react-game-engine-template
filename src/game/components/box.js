@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { add } from "../utils/three";
-import { sound } from "../utils";
 import CrashFile from "../../assets/audio/crash-01.wav";
 
 export default ({
@@ -29,8 +28,6 @@ export default ({
 
 	add(parent, box);
 	
-	const crash = sound(CrashFile, 16 * 40);
-
 	return {
 		model: box,
 		bodies: [
@@ -47,9 +44,9 @@ export default ({
 				collidesWith: 0xffffffff
 			})
 		],
-		collision: (self, other, contact, entities, { gamepadController }) => {
+		collision: (self, other, contact, entities, { gamepadController, audio }) => {
 			if (!contact.close) {
-				crash();
+				audio.play(CrashFile);
 
 				const camera = entities.camera;
 
