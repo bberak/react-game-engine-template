@@ -2,8 +2,8 @@ import React from "react";
 
 class HUDRenderer extends React.Component {
   shouldComponentUpdate(nextProps) {
-    const k1 = this.props.keyController || {};
-    const k2 = nextProps.keyController || {};
+    const k1 = this.props.keyboardController || {};
+    const k2 = nextProps.keyboardController || {};
 
     const g1 = this.props.gamepadController || {};
     const g2 = nextProps.gamepadController || {};
@@ -36,7 +36,7 @@ class HUDRenderer extends React.Component {
   }
 
   render() {
-    const { w, a, s, d, space, control } = this.props.keyController || {};
+    const { w, a, s, d, space, control } = this.props.keyboardController || {};
     const {
       button0,
       button1,

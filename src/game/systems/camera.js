@@ -5,11 +5,11 @@ const Camera = ({
   pitchSpeed = 0.01,
   zoomSpeed = 0.02
 } = {}) => {
-  return (entities, { keyController }) => {
+  return (entities, { keyboardController }) => {
     const camera = entities.camera;
 
-    if (camera && keyController) {
-      const { w, a, s, d, space, control } = keyController;
+    if (camera && keyboardController) {
+      const { w, a, s, d, space, control } = keyboardController;
 
       //-- Yaw and pitch rotation
       if (w || a || s || d) {

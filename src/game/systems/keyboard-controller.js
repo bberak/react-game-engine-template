@@ -23,9 +23,9 @@ const control = createKeyReader(["Control"]);
 
 let previous = { };
 
-const KeyController = (Wrapped = x => x) => (entities, args) => {
+const KeyboardController = (Wrapped = x => x) => (entities, args) => {
 
-  if (!args.keyController) {
+  if (!args.keyboardController) {
       const input = args.input;
 
       const current = {
@@ -37,7 +37,7 @@ const KeyController = (Wrapped = x => x) => (entities, args) => {
         control: control(input)
       };
 
-      args.keyController = Object.assign({}, current, { previous });
+      args.keyboardController = Object.assign({}, current, { previous });
 
       previous = current;
   }
@@ -45,4 +45,4 @@ const KeyController = (Wrapped = x => x) => (entities, args) => {
   return Wrapped(entities, args);
 };
 
-export default KeyController;
+export default KeyboardController;
