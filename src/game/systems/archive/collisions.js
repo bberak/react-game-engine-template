@@ -1,3 +1,7 @@
+//-- 
+//-- This systems should be used with the basic-physics systems
+//-- 
+
 import { allKeys } from "../utils";
 import { QuadTree, Box, Point, Circle } from "js-quadtree";
 import _ from "lodash";

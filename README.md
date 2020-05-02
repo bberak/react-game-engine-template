@@ -11,7 +11,7 @@ This project uses [Create React App](https://github.com/facebook/create-react-ap
 ## How to start
 
 ```
-git clone https://github.com/bberak/react-game-engine-template.git [new-game]
+git clone -b ammojs https://github.com/bberak/react-game-engine-template.git [new-game]
 
 cd [new-game]
 
@@ -42,7 +42,7 @@ This template contains the following:
 - A simple HUD
 - Particle systems
 - Sound support
-- Physics implementation powered by [Oimo](https://github.com/lo-th/Oimo.js/)
+- Physics implementation powered by [AmmoJS](https://github.com/kripken/ammo.js/) and moved to a web worker thread
 - [ThreeJS](https://github.com/mrdoob/three.js) rendering
 - Post-processing effects
 - Sprite support with animations

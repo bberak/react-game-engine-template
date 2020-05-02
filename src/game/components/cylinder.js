@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { add } from "../utils/three";
+import Physics from "./base/physics";
 
 export default ({
 	parent,
@@ -30,20 +31,28 @@ export default ({
 
 	return {
 		model: cylinder,
-		bodies: [
-			world.add({
-				type: "cylinder",
-				size: [radius * scale, height * scale],
-				pos: [x, y, z],
-				rot: [0, 0, 0],
-				move: dynamic,
-				density: 0.1,
-				friction: 0.9,
-				restitution: 0.2,
-				belongsTo: 1,
-				collidesWith: 0xffffffff
-			})
-		],
+		physics: Physics({
+			bodies: [
+				{
+					shape: "btCylinderShape",
+					size: {
+						x: radius * scale,
+						y: height * scale * 0.5,
+						z: radius * scale,
+					},
+					position: { x, y, z },
+					mass: 0.15
+				},
+			],
+			beginContact: (self, other) => {
+				if (other.turntable)
+					material.color.set(0xff0000);
+			},
+			endContact: (self, other) => { 
+				if (other.turntable)
+					material.color.set(color);
+			}
+		}),
 		removable: (frustum, self) => !frustum.intersectsObject(self.model)
 	};
 };

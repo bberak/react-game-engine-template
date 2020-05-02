@@ -2,7 +2,6 @@
   "dependencies": {
     "@popmotion/popcorn": "^0.4.0",
     "lodash": "^4.17.11",
-    "oimo": "^1.0.9",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-game-engine": "^1.0.0",

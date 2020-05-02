@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import { add, rotateAroundPoint } from "../utils/three";
+import Physics, { Body } from "./base/physics";
 
-export default ({ parent, world, items = [], x = 0, y = 0, z = 0, radius = 4, height = 0.2, color = 0xdddddd, segments = 32, opacity = 1 }) => {
+export default ({ parent, items = [], x = 0, y = 0, z = 0, radius = 4, height = 0.2, color = 0xdddddd, segments = 32, opacity = 1, scale = 1 }) => {
 
 	const geometry = new THREE.CylinderGeometry(radius, radius + radius * 0.1, height, segments);
 	const material = new THREE.MeshStandardMaterial({ color, transparent: opacity < 1, opacity, flatShading: true });
@@ -15,49 +16,48 @@ export default ({ parent, world, items = [], x = 0, y = 0, z = 0, radius = 4, he
 		item.model.position.z = radius - 1;
 		rotateAroundPoint(item.model, cylinder.position, { y: ((Math.PI * 2) / items.length) * idx })
 		add(cylinder, item);
-
-		if (item.bodies) 
-			item.bodies[0].position.set(item.model.position.x, item.model.position.y, item.model.position.z)
 	})
 	
 	add(parent, cylinder);
 
-	const primary = world.add({ 
-	    type: "cylinder",
-	    size: [radius, height],
-	    pos: [x, y, z],
-	    rot: [0, 0, 0],
-	    move: true,
-	    density: 0.9,
-	    friction: 0.9,
-	    restitution: 0.2,
-	    belongsTo: 1,
-	    collidesWith: 0xffffffff
-	});
-
-	const base = world.add({ type: "cylinder", size: [radius, height], pos: [x, y, z], move: false });
-
-	const hinge = world.add({
-		type: "jointHinge",
-		body1: primary, 
-		body2: base,
-		axe1: [0, 1, 0],
-		axe2: [0, 1, 0],
-		pos1: [primary.position.x, primary.position.y, primary.position.z],
-		pos2: [base.position.x, base.position.y, base.position.z]
-	});
+	//-- Using the Body constructor gives you a unique id
+	//-- which is useful for creating joints and other constraints
+	//-- and probably also compound bodies (but I haven't tried that yet)
+	const body = Body({
+		shape: "btCylinderShape",
+		size: {
+			x: radius * scale,
+			y: height * scale * 0.5,
+			z: radius * scale,
+		},
+		position: { x, y, z },
+		mass: 0.1,
+		linearFactor: { x: 0, y: 0, z: 0 },
+		angularFactor: { x: 0, y: 1, z: 0 },
+		localInertia: { x: 0.01, y: 0.01, z: 0.01 },
+		friction: 0.01,
+		restitution: 2,
+		angularDamping: 0.3,
+		rollingFriction: 0.01,
+		collisionGroup: 1,
+		collisionMask: 1,
+		angularSleepingThreshold: 0
+	})
 
 	return {
 		model: cylinder,
-		bodies: [primary, base, hinge],
+		turntable: true,
+		physics: Physics({
+			bodies: [body]
+		}),
 		timelines: {
 			swipe: {
 				while: true,
 				update(self, entities, timeline, { gamepadController }) {
 					if (gamepadController.rightTrigger)
-						self.bodies[0].angularVelocity.set(0, gamepadController.rightTrigger, 0)
+						self.physics.applyTorque(self.physics.bodies[0], { x: 0, y: gamepadController.rightTrigger, z: 0 })
 					else if (gamepadController.leftTrigger)
-						self.bodies[0].angularVelocity.set(0, -gamepadController.leftTrigger, 0)
+						self.physics.applyTorque(self.physics.bodies[0], { x: 0, y: -gamepadController.leftTrigger, z: 0 })
 				}
 			}
 		}

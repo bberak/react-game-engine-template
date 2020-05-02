@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { cloneTexture, add } from "../utils/three";
-import { remap, clamp } from "../utils";
+import { cloneTexture, add } from "../../utils/three";
+import { remap, clamp } from "../../utils";
 
 export default async ({ parent, x = 0, z = 0, y = 0, spriteSheet, rows, columns, actions: mappings = {} }) => {
 

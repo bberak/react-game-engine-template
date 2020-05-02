@@ -1,10 +1,9 @@
 import { promisifyLoader } from "../utils/three";
 import FBXLoader from "../utils/three/fbx-loader";
-import AnimatedModel from "./animated-model";
-import DroidFile from "../../assets/models/droid.fbx";
+import AnimatedModel from "./base/animated-model";
 
 const loader = promisifyLoader(new FBXLoader());
-const mesh = loader.load(DroidFile);
+const mesh = loader.load("./assets/models/droid.fbx");
 
 export default async ({ parent, x = 0, y = 0, z = 0}) => {
 

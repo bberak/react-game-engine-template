@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { remap } from "../utils";
-import { noise } from "../utils/perlin";
+import { remap } from "../../utils";
+import { noise } from "../../utils/perlin";
 
 export default () => {
 	const camera = new THREE.PerspectiveCamera(

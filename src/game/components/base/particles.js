@@ -1,10 +1,9 @@
 import * as THREE from "three";
-import GPUParticleSystem from "../graphics/gpu-particle-system";
-import { add, promisifyLoader } from "../utils/three";
-import NoiseFile from "../../assets/textures/perlin.png";
+import GPUParticleSystem from "../../graphics/gpu-particle-system";
+import { add, promisifyLoader } from "../../utils/three";
 
 const loader = promisifyLoader(new THREE.TextureLoader());
-const _noiseTexture = loader.load(NoiseFile);
+const _noiseTexture = loader.load("./assets/textures/perlin.png");
 
 export default async ({
 	maxParticles = 250,

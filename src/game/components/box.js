@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { add } from "../utils/three";
 import { sound } from "../utils";
-import CrashFile from "../../assets/audio/crash-01.wav";
+import Physics from "./base/physics";
 
 export default ({
 	parent,
@@ -14,7 +14,7 @@ export default ({
 	breadth = 1.1,
 	height = 1.1,
 	scale = 1,
-	color = 0x00e6ff
+	color = 0x00e6ff,
 }) => {
 	const geometry = new THREE.BoxGeometry(width, height, breadth);
 	const material = new THREE.MeshStandardMaterial({ color });
@@ -28,38 +28,42 @@ export default ({
 	box.scale.z = scale;
 
 	add(parent, box);
-	
-	const crash = sound(CrashFile, 16 * 40);
+
+	const crash = sound("./assets/audio/crash-01.wav", 16 * 40);
 
 	return {
 		model: box,
-		bodies: [
-			world.add({
-				type: "box",
-				size: [width * scale, height * scale, breadth * scale],
-				pos: [x, y, z],
-				rot: [0, 0, 0],
-				move: dynamic,
-				density: 0.1,
-				friction: 0.9,
-				restitution: 0.2,
-				belongsTo: 1,
-				collidesWith: 0xffffffff
-			})
-		],
+		physics: Physics({
+			bodies: [
+				{
+					shape: "btBoxShape",
+					size: {
+						x: width * scale * 0.5,
+						y: height * scale * 0.5,
+						z: breadth * scale * 0.5,
+					},
+					position: { x, y, z },
+					mass: 0.15,
+					collisionGroup: 1,
+					collisionMask: 1
+				},
+			],
+		}),
 		collision: (self, other, contact, entities, { gamepadController }) => {
 			if (!contact.close) {
 				crash();
 
 				const camera = entities.camera;
 
-				if (camera)
-					camera.shake();
+				if (camera) camera.shake();
 
 				if (gamepadController)
-					gamepadController.vibrate({ duration: 300, strongMagnitude: 0.3 });
+					gamepadController.vibrate({
+						duration: 300,
+						strongMagnitude: 0.3,
+					});
 			}
 		},
-		removable: (frustum, self) => !frustum.intersectsObject(self.model)
+		removable: (frustum, self) => !frustum.intersectsObject(self.model),
 	};
 };

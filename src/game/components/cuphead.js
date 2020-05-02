@@ -1,11 +1,10 @@
 import * as THREE from "three";
-import Sprite from "./sprite";
+import Sprite from "./base/sprite";
 import { between } from "../utils";
 import { promisifyLoader } from "../utils/three";
-import CupheadFile from "../../assets/sprite-sheets/cuphead.png";
 
 const loader = promisifyLoader(new THREE.TextureLoader());
-const spriteSheet = loader.load(CupheadFile);
+const spriteSheet = loader.load("./assets/sprite-sheets/cuphead.png");
 
 export default async ({ parent, x = 0, y = 0, z = 0}) => {
 	

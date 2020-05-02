@@ -1,10 +1,9 @@
 import * as THREE from "three";
 import { promisifyLoader } from "../utils/three";
-import Particles from "./particles";
-import ParticleFile from "../../assets/textures/particle.png";
+import Particles from "./base/particles";
 
 const loader = promisifyLoader(new THREE.TextureLoader());
-const particleTexture = loader.load(ParticleFile);
+const particleTexture = loader.load("./assets/textures/particle.png");
 
 export default async ({
 	parent,

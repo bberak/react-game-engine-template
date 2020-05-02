@@ -1,5 +1,5 @@
-import { add, cloneMesh } from "../utils/three";
-import { clamp } from "../utils";
+import { add, cloneMesh } from "../../utils/three";
+import { clamp } from "../../utils";
 
 export default async ({ parent, x = 0, z = 0, y = 0, scale = 1, mesh, morphTargets = {} }) => {
 

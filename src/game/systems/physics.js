@@ -1,37 +1,66 @@
-import { all } from "../utils";
+import { allKeys } from "../utils";
+import { subscribe, send } from "../utils/physics";
+
+const events = [];
+
+const queuePhysicsEvent = (e) => {
+  events.push(e.data);
+}
+
+const processEvents = (bodies) => {
+  events.forEach((e) => {
+    if (e.name === "sync") {
+      e.bodies.forEach(b => {
+        const entity = bodies[b.id]
+        if (entity)
+          entity.physics.sync(entity, b);
+      });
+
+      e.beginContacts.forEach(c => {
+        const entity1 = bodies[c.body1];
+        const entity2 = bodies[c.body2];
+
+        if (entity1 && entity2) {
+          if (entity1.physics.beginContact)
+          entity1.physics.beginContact(entity1, entity2, c.force);
+
+          if (entity2.physics.beginContact)
+            entity2.physics.beginContact(entity2, entity1, c.force);
+        }
+      });
+
+      e.endContacts.forEach(c => {
+        const entity1 = bodies[c.body1];
+        const entity2 = bodies[c.body2];
+
+        if (entity1 && entity2) {
+          if (entity1.physics.endContact)
+          entity1.physics.endContact(entity1, entity2, c.force);
+
+          if (entity2.physics.endContact)
+            entity2.physics.endContact(entity2, entity1, c.force);
+        }
+      });
+    }
+  });
+
+  events.length = 0;
+};
 
 const Physics = (entities, args) => {
-  const world = entities.world;
-  const entitiesWithBodies = all(entities, e => e.bodies && e.model);
+  subscribe(queuePhysicsEvent)
+  
+  const entitiesWithPhysics = allKeys(entities, (e) => e.physics);
+  const bodies = {};
 
-  if (world) 
-  	world.step();
+  entitiesWithPhysics.forEach(key => {
+    const entity = entities[key];
 
-  for (let x = 0; x < entitiesWithBodies.length; x++) {
-  	const entity = entitiesWithBodies[x];
-  	const model = entity.model;
-  	const body = entity.bodies[0];
-  	const collision = entity.collision;
+    entity.physics.bodies.forEach(b => bodies[b.id] = entity)
+  })
 
-	if (!body.sleeping) {
-  		model.position.copy(body.getPosition());
-    	model.quaternion.copy(body.getQuaternion());
-  	}
-
-  	if (collision) {
-  		for (let y = 0; y < entitiesWithBodies.length; y++) {
-  			if (x === y) 
-  				continue;
-
-  			const otherEntity = entitiesWithBodies[y];
-  			const otherBody = otherEntity.bodies[0];
-  			const contact = world.getContact(body, otherBody);
-
-  			if (contact)
-  				collision(entity, otherEntity, contact, entities, args);
-  		}
-  	}
-  }
+  processEvents(bodies)
+  send(args.time.delta)
 
   return entities;
 };

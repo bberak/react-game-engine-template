@@ -1,12 +1,11 @@
 import * as THREE from "three";
-import AnimatedModel from "./animated-model";
+import AnimatedModel from "./base/animated-model";
 import { firstMesh, promisifyLoader } from "../utils/three";
 import GLTFLoader from "../utils/three/gltf-loader";
 import { between } from "../utils";
-import JetFile from "../../assets/models/jet.glb";
 
 const loader = promisifyLoader(new GLTFLoader());
-const mesh = loader.load(JetFile).then(gltf => firstMesh(gltf.scene));
+const mesh = loader.load("./assets/models/jet.glb").then(gltf => firstMesh(gltf.scene));
 
 export default async ({ parent, x = 0, y = 0, z = 0}) => {
 

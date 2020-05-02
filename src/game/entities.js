@@ -1,29 +1,22 @@
 import * as THREE from 'three';
-import Camera from "./components/camera";
+import * as ThreeUtils from "./utils/three";
+import * as Physics from "./utils/physics";
+import Camera from "./components/base/camera";
 import Cuphead from "./components/cuphead";
-import HUD from "./components/hud";
+import HUD from "./components/base/hud";
 import Turntable from "./components/turntable";
 import Droid from "./components/droid";
 import Portal from "./components/portal";
 import Jet from "./components/jet";
-import { clear } from "./utils/three";
-import * as OIMO from "oimo";
 
 const scene = new THREE.Scene();
 const camera = Camera();
-const world = new OIMO.World({ 
-    timestep: 1 / 60, 
-    iterations: 8, 
-    broadphase: 2,
-    worldscale: 1,
-    random: true,
-    info: false,
-    gravity: [0, -9.8 ,0] 
-});
+
+Physics.configure({ gravity: { x: 0, y: -0.8, z: 0 }})
 
 export default async () => {
-	clear(scene);
-	world.clear();
+	Physics.clearBodies();
+	ThreeUtils.clear(scene);
 
 	const ambient = new THREE.AmbientLight(0xffffff, 1);
 	const sunlight = new THREE.DirectionalLight(0xffffff, 0.95);
@@ -41,13 +34,12 @@ export default async () => {
 	const portal = await Portal({ y: 1 });
 	const jet = await Jet({ y: 1 });
 	
-	const turntable = Turntable({ parent: scene, world, items: [droid, cuphead, portal, jet] });	
+	const turntable = Turntable({ parent: scene, items: [droid, cuphead, portal, jet] });	
 	const hud = HUD();
 
 	const entities = {
 		scene,
 		camera,
-		world,
 		droid,
 		cuphead,
 		portal,
