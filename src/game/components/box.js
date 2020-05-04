@@ -48,9 +48,7 @@ export default ({
 					collisionMask: 1
 				},
 			],
-		}),
-		collision: (self, other, contact, entities, { gamepadController }) => {
-			if (!contact.close) {
+			beginContact: (self, other, force, entities, { gamepadController }) => {
 				crash();
 
 				const camera = entities.camera;
@@ -63,7 +61,7 @@ export default ({
 						strongMagnitude: 0.3,
 					});
 			}
-		},
+		}),
 		removable: (frustum, self) => !frustum.intersectsObject(self.model),
 	};
 };

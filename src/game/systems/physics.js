@@ -7,7 +7,7 @@ const queuePhysicsEvent = (e) => {
   events.push(e.data);
 }
 
-const processEvents = (bodies) => {
+const processEvents = (bodies, entities, args) => {
   events.forEach((e) => {
     if (e.name === "sync") {
       e.bodies.forEach(b => {
@@ -22,10 +22,10 @@ const processEvents = (bodies) => {
 
         if (entity1 && entity2) {
           if (entity1.physics.beginContact)
-          entity1.physics.beginContact(entity1, entity2, c.force);
+          entity1.physics.beginContact(entity1, entity2, c.force, entities, args);
 
           if (entity2.physics.beginContact)
-            entity2.physics.beginContact(entity2, entity1, c.force);
+            entity2.physics.beginContact(entity2, entity1, c.force, entities, args);
         }
       });
 
@@ -35,10 +35,10 @@ const processEvents = (bodies) => {
 
         if (entity1 && entity2) {
           if (entity1.physics.endContact)
-          entity1.physics.endContact(entity1, entity2, c.force);
+          entity1.physics.endContact(entity1, entity2, c.force, entities, args);
 
           if (entity2.physics.endContact)
-            entity2.physics.endContact(entity2, entity1, c.force);
+            entity2.physics.endContact(entity2, entity1, c.force, entities, args);
         }
       });
     }
@@ -59,8 +59,8 @@ const Physics = (entities, args) => {
     entity.physics.bodies.forEach(b => bodies[b.id] = entity)
   })
 
-  processEvents(bodies)
-  send(args.time.delta)
+  processEvents(bodies, entities, args);
+  send(args.time.delta);
 
   return entities;
 };
