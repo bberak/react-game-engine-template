@@ -8,8 +8,13 @@ const additions = [];
 const removals = [];
 const functionCalls = [];
 
+let ready = false;
+
 worker.onmessage = (ev) => {
 	subscribers.forEach((x) => x(ev));
+
+	if (ev.data.name === "ready" || ev.data.name === "sync")
+		ready = true;
 };
 
 export const configure = (cfg = {}) => {
@@ -45,6 +50,13 @@ export const call = (body, functionName, args) => {
 };
 
 export const send = (timeDelta) => {
+	//-- Should probably accumulated the timeDelta first,
+	//-- then reset it after posting the 'simulate' event..
+	//-- But it works alright as is..
+
+	if (!ready)
+		return;
+
 	if (additions.length) {
 		worker.postMessage({ name: "addBodies",  bodies: additions });
 		additions.length = 0;
@@ -61,4 +73,6 @@ export const send = (timeDelta) => {
 	}
 
 	worker.postMessage({ name: "simulate", timeDelta });
+
+	ready = false;
 }

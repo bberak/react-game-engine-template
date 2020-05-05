@@ -1,4 +1,4 @@
-importScripts("../assets/scripts/ammo.js");
+importScripts("../assets/scripts/ammo.wasm.js");
 
 Ammo().then(init);
 
@@ -16,6 +16,8 @@ function init() {
 	);
 
 	world.setGravity(new Ammo.btVector3(0, -20, 0));
+
+	postMessage({ name: "ready" });
 
 	let bodyCache = {};
 	let contactCache = {};
@@ -164,7 +166,7 @@ function init() {
 	}
 
 	function simulate(data) {
-		world.stepSimulation(data.timeDelta, 5);
+		world.stepSimulation(data.timeDelta, 3);
 
 		let updates = [];
 		let transform = new Ammo.btTransform();
@@ -236,7 +238,7 @@ function init() {
 		postMessage({ name: "sync", bodies: updates, beginContacts, endContacts });
 	}
 
-	onmessage = function(e) {
+	onmessage = function(e) {		
 		const handler = [
 			configure,
 			addBodies,
