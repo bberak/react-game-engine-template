@@ -22,10 +22,10 @@ const processEvents = (bodies, entities, args) => {
 
         if (entity1 && entity2) {
           if (entity1.physics.beginContact)
-          entity1.physics.beginContact(entity1, entity2, c.force, entities, args);
+          entity1.physics.beginContact(entity1, entity2, c, entities, args);
 
           if (entity2.physics.beginContact)
-            entity2.physics.beginContact(entity2, entity1, c.force, entities, args);
+            entity2.physics.beginContact(entity2, entity1, c, entities, args);
         }
       });
 
@@ -35,10 +35,10 @@ const processEvents = (bodies, entities, args) => {
 
         if (entity1 && entity2) {
           if (entity1.physics.endContact)
-          entity1.physics.endContact(entity1, entity2, c.force, entities, args);
+          entity1.physics.endContact(entity1, entity2, c, entities, args);
 
           if (entity2.physics.endContact)
-            entity2.physics.endContact(entity2, entity1, c.force, entities, args);
+            entity2.physics.endContact(entity2, entity1, c, entities, args);
         }
       });
     }
