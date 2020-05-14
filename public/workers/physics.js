@@ -166,7 +166,7 @@ function init() {
 	}
 
 	function simulate(data) {
-		world.stepSimulation(data.timeDelta, 3);
+		world.stepSimulation(data.timeDelta, 6);
 
 		let updates = [];
 		let transform = new Ammo.btTransform();
@@ -216,8 +216,14 @@ function init() {
 		        let pt = manifold.getContactPoint(j);
 		        let body1 = Ammo.castObject(manifold.getBody0(), Ammo.btRigidBody);
 		        let body2 = Ammo.castObject(manifold.getBody1(), Ammo.btRigidBody);
-		        let force = pt.getAppliedImpulse();   
-		        let contact = { body1: body1.id, body2: body2.id, force };
+		        let force = pt.getAppliedImpulse();  
+		        let wpa = pt.getPositionWorldOnA();
+		        let worldPositionOnA = { x: wpa.x(), y: wpa.y(), z: wpa.z() };
+		        let wpb = pt.getPositionWorldOnB();
+		        let worldPositionOnB = { x: wpb.x(), y: wpb.y(), z: wpb.z() };
+		        let wnb = pt.get_m_normalWorldOnB();
+		        let worldNormalOnB = { x: wnb.x(), y: wnb.y(), z: wnb.z() };
+		        let contact = { body1: body1.id, body2: body2.id, force, worldPositionOnA, worldPositionOnB, worldNormalOnB };
 		        let key = [body1.id, body2.id].sort().join("><");
 
 		        if (!contactCache[key])

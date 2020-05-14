@@ -1,8 +1,23 @@
 import * as PhysicsUtils from "../../utils/physics";
 
-export const Body = (args) => ({ id: PhysicsUtils.bodyId(), ...args });
-export const Constraint = (args) => ({ id: PhysicsUtils.bodyId(), constraint: true, ...args });
+export const Body = (args) => ({
+	id: PhysicsUtils.bodyId(),
+	position: { x: 0, y: 0, z: 0 },
+	rotation: { x: 0, y: 0, z:0 },
+	velocity: { x: 0, y: 0, z: 0 },
+	angularVelocity: { x: 0, y: 0, z: 0 },
+	...args,
+});
 
+export const Constraint = (args) => ({
+	id: PhysicsUtils.bodyId(),
+	position: { x: 0, y: 0, z: 0 },
+	rotation: { x: 0, y: 0, z:0 },
+	velocity: { x: 0, y: 0, z: 0 },
+	angularVelocity: { x: 0, y: 0, z: 0 },
+	constraint: true,
+	...args,
+});
 export default ({ bodies = [], sync = [], beginContact, endContact }) => {
 	const physics = {
 		bodies: bodies.map(PhysicsUtils.addBody),
